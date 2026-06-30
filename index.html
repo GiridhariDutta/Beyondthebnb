@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyond The BNB | Premier Luxury Direct-Booking & Property Management</title>
+    <meta name="description" content="Book premier luxury villas in Miami, Medellin, and South Florida with exclusive concierge services and group travel planning.">
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="glass-header" id="main-header">
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showSection('desktop-home')">
+                <div>
+                    BEYOND<span>THE</span>BNB
+                    <div class="logo-tag">Miami & Medellin Group Travel</div>
+                </div>
+            </a>
+            
+            <ul class="nav-menu">
+                <li><a href="#properties" class="nav-link" onclick="showSection('desktop-home')">Villas</a></li>
+                <li><a href="#services" class="nav-link" onclick="showSection('desktop-home')">Concierge</a></li>
+                <li><a href="#inquiry" class="nav-link" onclick="showSection('desktop-home')">Event Inquiries</a></li>
+                <li><a href="#" class="nav-link" onclick="showSection('admin-dashboard')"><i class="fa-solid fa-lock text-gold"></i> Admin Dashboard</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <div class="demo-modes">
+                    <button class="mode-btn active" id="desktop-mode-btn" onclick="toggleViewMode('desktop')">Desktop Site</button>
+                    <button class="mode-btn" id="mobile-mode-btn" onclick="toggleViewMode('mobile')">App Simulator</button>
+                </div>
+                <button class="btn-gold" onclick="scrollToProperties()">Book Direct</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN WRAPPER FOR DESKTOP VIEWS -->
+    <main class="main-wrapper" id="desktop-view-wrapper">
+        
+        <!-- Hero Section -->
+        <section class="hero-section" id="hero">
+            <div class="hero-content">
+                <span class="hero-subtitle">Best Rates Guaranteed When Booking Direct</span>
+                <h1 class="hero-title">Miami & Medellin's <span>Premier Group Travel</span> & Villa Experts</h1>
+                <p style="color: var(--text-secondary); margin-bottom: 40px; font-size: 1.1rem;">
+                    Curating unforgettable group stays in remarkable waterfront estates and luxury villas.
+                </p>
+
+                <!-- Search Widget -->
+                <div class="search-widget glass-panel">
+                    <div class="search-grid">
+                        <div class="search-field">
+                            <label for="search-market"><i class="fa-solid fa-location-dot text-gold"></i> Market</label>
+                            <select id="search-market" onchange="filterPropertiesByDropdown()">
+                                <option value="all">All Markets</option>
+                                <option value="miami">Miami, FL</option>
+                                <option value="fort-lauderdale">Fort Lauderdale, FL</option>
+                                <option value="hollywood">Hollywood, FL</option>
+                                <option value="davie">Davie, FL</option>
+                                <option value="medellin">Medellin, Colombia</option>
+                            </select>
+                        </div>
+                        <div class="search-field">
+                            <label for="check-in"><i class="fa-solid fa-calendar text-gold"></i> Check In</label>
+                            <input type="date" id="check-in" min="2026-07-01">
+                        </div>
+                        <div class="search-field">
+                            <label for="check-out"><i class="fa-solid fa-calendar text-gold"></i> Check Out</label>
+                            <input type="date" id="check-out" min="2026-07-02">
+                        </div>
+                        <div class="search-field">
+                            <label for="guest-count"><i class="fa-solid fa-users text-gold"></i> Guests</label>
+                            <select id="guest-count">
+                                <option value="2">Up to 2 Guests</option>
+                                <option value="6">Up to 6 Guests</option>
+                                <option value="12">Up to 12 Guests</option>
+                                <option value="16">16+ Guests (Large Group)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+                        <button class="btn-gold" onclick="searchVillas()"><i class="fa-solid fa-magnifying-glass"></i> Find Available Villas</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Properties Grid Section -->
+        <section class="section" id="properties">
+            <div class="section-header">
+                <div class="section-info">
+                    <span class="section-tag">Luxurious Escapes</span>
+                    <h2 class="section-title">Our Handpicked Portfolio</h2>
+                </div>
+                <div class="market-filters">
+                    <button class="filter-chip active" onclick="filterMarket('all', this)">All</button>
+                    <button class="filter-chip" onclick="filterMarket('miami', this)">Miami</button>
+                    <button class="filter-chip" onclick="filterMarket('fort-lauderdale', this)">Fort Lauderdale</button>
+                    <button class="filter-chip" onclick="filterMarket('hollywood', this)">Hollywood</button>
+                    <button class="filter-chip" onclick="filterMarket('davie', this)">Davie</button>
+                    <button class="filter-chip" onclick="filterMarket('medellin', this)">Medellin</button>
+                </div>
+            </div>
+
+            <!-- Properties Cards Grid (Populated via JS) -->
+            <div class="properties-grid" id="properties-container">
+                <!-- Dynamically generated property cards go here -->
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="section" id="services" style="background: var(--bg-surface);">
+            <div style="text-align: center; max-width: 700px; margin: 0 auto 60px auto;">
+                <span class="section-tag">VIP Custom Upgrades</span>
+                <h2 class="section-title">Bespoke Concierge Add-ons</h2>
+                <p style="color: var(--text-secondary); margin-top: 15px;">
+                    Take advantage of our localized VIP connections to elevate your group travel package.
+                </p>
+            </div>
+
+            <div class="services-container">
+                <div class="service-card" onclick="openCRMInquiry('Yacht Charter')">
+                    <div class="service-icon"><i class="fa-solid fa-ship"></i></div>
+                    <h4 class="service-title">Yacht Charters</h4>
+                    <p class="service-desc">Luxury yacht packages with fully staffed captains, chefs, and bartenders in Miami & Medellin.</p>
+                </div>
+                <div class="service-card" onclick="openCRMInquiry('Private Chef')">
+                    <div class="service-icon"><i class="fa-solid fa-utensils"></i></div>
+                    <h4 class="service-title">Private Chefs</h4>
+                    <p class="service-desc">Exclusive custom dining experiences prepared live at your villa by gourmet chefs.</p>
+                </div>
+                <div class="service-card" onclick="openCRMInquiry('VIP Nightlife')">
+                    <div class="service-icon"><i class="fa-solid fa-champagne-glasses"></i></div>
+                    <h4 class="service-title">VIP Nightlife Access</h4>
+                    <p class="service-desc">Hosted guestlists, premium tables, and bottle service at the hottest clubs in Miami & Medellin.</p>
+                </div>
+                <div class="service-card" onclick="openCRMInquiry('Party Bus')">
+                    <div class="service-icon"><i class="fa-solid fa-bus"></i></div>
+                    <h4 class="service-title">Party Bus Transportation</h4>
+                    <p class="service-desc">Chauffeured multi-passenger Sprinter vans and luxury party buses with custom sound & lights.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lead Capture Form (CRM Section) -->
+        <section class="section contact-section" id="inquiry">
+            <div class="form-grid">
+                <div class="form-info">
+                    <span class="section-tag">Host Unforgettable Occasions</span>
+                    <h2 class="form-info-title">Plan Your Event Inquiry</h2>
+                    <p class="form-info-text">
+                        Looking to host a corporate retreat, private dinner, pool party, or family reunion? Let our specialists take care of the logistics from properties to logistics planning.
+                    </p>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <div class="contact-label">Email Support</div>
+                            <div class="contact-value">info@beyondthebnb.com</div>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+                        <div>
+                            <div class="contact-label">Direct Phone Line</div>
+                            <div class="contact-value">+1 (305) 331-7000 (Greg)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inquiry-form glass-panel">
+                    <h3 style="margin-bottom: 25px; border-bottom: 1px solid var(--border-glass); padding-bottom: 12px;">Submit Group Inquiry</h3>
+                    <form id="crm-inquiry-form" onsubmit="handleCRMSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="crm-name">Your Name</label>
+                                <input type="text" id="crm-name" required placeholder="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label for="crm-email">Email Address</label>
+                                <input type="email" id="crm-email" required placeholder="john@example.com">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="crm-phone">Phone Number</label>
+                                <input type="tel" id="crm-phone" placeholder="+1 (123) 456-7890">
+                            </div>
+                            <div class="form-group">
+                                <label for="crm-service">Primary Service</label>
+                                <select id="crm-service">
+                                    <option value="Villa Booking">Luxury Villa Booking</option>
+                                    <option value="Yacht Charter">Yacht Charter Upgrade</option>
+                                    <option value="Private Chef">Private Chef Dine-in</option>
+                                    <option value="Group Packages">Full Group Event Packages</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="crm-message">Event Details / Special Requests</label>
+                            <textarea id="crm-message" rows="4" placeholder="Tell us about your dates, guest count, and if you require bartenders, DJs, or custom decorations..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-gold" style="width: 100%;">Submit Lead Request</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <a href="#" class="logo" style="margin-bottom: 20px;">
+                        BEYOND<span>THE</span>BNB
+                    </a>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">
+                        High-end boutique group travel packages and elite investment property management.
+                    </p>
+                    <div style="display: flex; gap: 15px; font-size: 1.2rem;">
+                        <a href="https://www.linkedin.com/in/gregoryjohnwood/" target="_blank" class="text-gold"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#" class="text-gold"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="text-gold"><i class="fa-brands fa-facebook"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h5>Top Destinations</h5>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link" onclick="filterMarket('miami')">Miami, Florida</a></li>
+                        <li><a href="#" class="footer-link" onclick="filterMarket('fort-lauderdale')">Fort Lauderdale, FL</a></li>
+                        <li><a href="#" class="footer-link" onclick="filterMarket('hollywood')">Hollywood, FL</a></li>
+                        <li><a href="#" class="footer-link" onclick="filterMarket('medellin')">Medellin, Colombia</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h5>Owner Relations</h5>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link" onclick="showSection('desktop-home')">Property Management</a></li>
+                        <li><a href="#" class="footer-link" onclick="showSection('desktop-home')">Investment Consulting</a></li>
+                        <li><a href="#" class="footer-link" onclick="showSection('desktop-home')">Design & Styling</a></li>
+                        <li><a href="#" class="footer-link" onclick="showSection('desktop-home')">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h5>Subscribe</h5>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 15px;">
+                        Receive exclusive offers and first-looks at new estates.
+                    </p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed to newsletter!');">
+                        <input type="email" required placeholder="Your email...">
+                        <button type="submit">Join</button>
+                    </form>
+                </div>
+            </div>
+            <div style="border-top: 1px solid var(--border-dim); margin-top: 50px; padding-top: 25px; text-align: center; color: var(--text-muted); font-size: 0.8rem;">
+                Copyright &copy; 2026 Beyond The BNB. Built with Premium Dark Design. All rights reserved.
+            </div>
+        </footer>
+        
+    </main>
+
+    <!-- VIEW MODE: MOBILE APP SIMULATOR CONTAINER -->
+    <div class="simulator-container" id="mobile-app-simulator" style="display: none; padding-top: 110px;">
+        <div class="phone-frame">
+            <div class="phone-notch"></div>
+            
+            <div class="phone-screen" id="app-screen-body">
+                <!-- App header -->
+                <div class="app-header">
+                    <span class="app-logo">BEYOND<span>THE</span>BNB</span>
+                    <button style="background:transparent; border:none; color:var(--primary); font-size:1.1rem; cursor:pointer;" onclick="appLogout()">
+                        <i class="fa-solid fa-circle-user"></i>
+                    </button>
+                </div>
+
+                <!-- App Inner Content (Rendered dynamically) -->
+                <div class="app-content" id="app-content-area">
+                    <!-- Loaded dynamically via app.js -->
+                </div>
+
+                <!-- App Sticky Navigation Bar -->
+                <div class="app-footer-nav">
+                    <button class="app-nav-item active" onclick="loadAppTab('explore', this)">
+                        <i class="fa-solid fa-compass app-nav-icon"></i>
+                        <span>Explore</span>
+                    </button>
+                    <button class="app-nav-item" onclick="loadAppTab('trips', this)">
+                        <i class="fa-solid fa-calendar-days app-nav-icon"></i>
+                        <span>My Trips</span>
+                    </button>
+                    <button class="app-nav-item" onclick="loadAppTab('concierge', this)">
+                        <i class="fa-solid fa-bell-concierge app-nav-icon"></i>
+                        <span>Concierge</span>
+                    </button>
+                    <button class="app-nav-item" onclick="loadAppTab('chat', this)">
+                        <i class="fa-solid fa-comment-dots app-nav-icon"></i>
+                        <span>Concierge Chat</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW MODE: ADMIN DASHBOARD VIEW -->
+    <section class="admin-section" id="admin-dashboard-view" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 20px;">
+            <div>
+                <span class="section-tag">Internal Tools</span>
+                <h2 class="section-title">Beyond The BNB Portal</h2>
+            </div>
+            <button class="btn-gold" onclick="showSection('desktop-home')">Exit Admin Portal</button>
+        </div>
+
+        <div class="admin-grid">
+            <div class="admin-sidebar-menu">
+                <button class="admin-menu-btn active" onclick="switchAdminTab('reservations', this)"><i class="fa-solid fa-calendar-check text-gold"></i> Reservations</button>
+                <button class="admin-menu-btn" onclick="switchAdminTab('blackout', this)"><i class="fa-solid fa-calendar-minus text-gold"></i> Blackout Dates</button>
+                <button class="admin-menu-btn" onclick="switchAdminTab('pricing', this)"><i class="fa-solid fa-dollar-sign text-gold"></i> Dynamic Pricing</button>
+                <button class="admin-menu-btn" onclick="switchAdminTab('crm', this)"><i class="fa-solid fa-users-gear text-gold"></i> Lead CRM</button>
+            </div>
+
+            <div class="admin-content-card glass-panel" style="padding: 30px;">
+                
+                <!-- Reservations Panel -->
+                <div class="admin-panel active" id="admin-panel-reservations">
+                    <!-- Summary Stats Counter -->
+                    <div class="admin-stats-grid" id="admin-stats-summary" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px;">
+                        <!-- Loaded dynamically via app.js -->
+                    </div>
+                    
+                    <h3 style="margin-bottom: 20px; font-size: 1.6rem; font-family: var(--font-serif);">Live Booking Log</h3>
+                    <div id="admin-reservation-cards" style="display: flex; flex-direction: column; gap: 15px;">
+                        <!-- Populated dynamically as high-end cards -->
+                    </div>
+                </div>
+
+                <!-- Blackout Dates Panel -->
+                <div class="admin-panel" id="admin-panel-blackout">
+                    <h3 style="margin-bottom: 10px; font-size: 1.6rem; font-family: var(--font-serif);">Blackout Dates Manager</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 25px; font-size: 0.9rem;">
+                        Select dates in the calendar to mark them as blacked out (unavailable) for direct guest bookings.
+                    </p>
+                    
+                    <div class="admin-blackout-layout">
+                        <!-- Left Pane: Selector and Grid -->
+                        <div>
+                            <div class="form-group" style="max-width: 100%; margin-bottom: 20px;">
+                                <label for="admin-blackout-property">Select Property</label>
+                                <select id="admin-blackout-property" onchange="renderBlackoutCalendar()"></select>
+                            </div>
+                            
+                            <label style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase;">Select Calendar Days (July 2026)</label>
+                            <div class="blackout-calendar" id="admin-blackout-calendar" style="margin-top: 10px;">
+                                <!-- Populated by JS -->
+                            </div>
+                            <div style="margin-top: 25px;">
+                                <button class="btn-gold" style="width: 100%;" onclick="saveBlackoutDates()">Apply Blackout Settings</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Pane: Active Blackouts list (Fills empty space!) -->
+                        <div class="admin-blackout-summary-pane">
+                            <h4 style="font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 15px; border-bottom: 1px solid var(--border-glass); padding-bottom: 10px;">
+                                <i class="fa-solid fa-calendar-minus text-gold"></i> Currently Blacked Out Days
+                            </h4>
+                            <div id="admin-blackout-active-list" style="display: flex; flex-wrap: wrap; gap: 10px; align-content: start; flex-grow: 1;">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Pricing Panel -->
+                <div class="admin-panel" id="admin-panel-pricing">
+                    <h3 style="margin-bottom: 10px;">Seasonal & Weekend Pricing Factors</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.9rem;">
+                        Adjust pricing weights dynamically based on local Miami / Medellin holidays or peak season.
+                    </p>
+                    <div class="form-row" style="max-width: 600px;">
+                        <div class="form-group">
+                            <label for="base-multiplier">Peak Season Multiplier</label>
+                            <input type="number" id="base-multiplier" step="0.1" value="1.3">
+                        </div>
+                        <div class="form-group">
+                            <label for="weekend-multiplier">Weekend Markup Rate</label>
+                            <input type="number" id="weekend-multiplier" step="0.1" value="1.2">
+                        </div>
+                    </div>
+                    <button class="btn-gold" onclick="savePricingRules()">Update Rate Parameters</button>
+                </div>
+
+                <!-- CRM Lead Management Panel -->
+                <div class="admin-panel" id="admin-panel-crm">
+                    <h3 style="margin-bottom: 20px; font-size: 1.6rem; font-family: var(--font-serif);">Event Inquiry & Lead CRM</h3>
+                    
+                    <div class="crm-split-layout">
+                        <!-- Left: Leads list -->
+                        <div class="crm-leads-list-pane">
+                            <h4 style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 15px;">All Inquiries</h4>
+                            <div id="admin-crm-list" style="display: flex; flex-direction: column; gap: 10px;">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                        
+                        <!-- Right: Selected Lead Details -->
+                        <div class="crm-details-pane" id="admin-crm-details" style="padding: 20px; background: rgba(255,255,255,0.01); border: 1px solid var(--border-glass); border-radius: 12px; min-height: 400px; display: flex; flex-direction: column;">
+                            <div style="text-align: center; color: var(--text-muted); margin-top: 100px;">
+                                <i class="fa-solid fa-address-card" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px; opacity: 0.5;"></i>
+                                <p>Select a lead from the left list to review event details, manage lead status, and view internal notes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- DETAILED PROPERTY BOOKING MODAL -->
+    <div class="modal-overlay" id="property-modal">
+        <div class="modal-container glass-panel">
+            <button class="close-modal" onclick="closePropertyModal()"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="modal-content-grid">
+                
+                <!-- Left: Details and Wizard steps -->
+                <div style="border-right: 1px solid var(--border-glass); padding-right: 30px;">
+                    <h2 id="modal-property-name" style="font-size: 2.2rem; margin-bottom: 10px;">Villa Title</h2>
+                    <div class="property-location" id="modal-property-address" style="margin-bottom: 20px;">
+                        <i class="fa-solid fa-location-dot text-gold"></i> Address details
+                    </div>
+                    
+                    <!-- Property Main Slider Image -->
+                    <div style="height: 350px; border-radius: 12px; overflow: hidden; position: relative;">
+                        <img src="" id="modal-main-img" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    
+                    <!-- Gallery Strip -->
+                    <div class="property-gallery-strip" id="modal-gallery-strip">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <h4 style="margin-bottom: 12px; border-bottom: 1px solid var(--border-glass); padding-bottom: 6px;">Description & Highlights</h4>
+                        <p id="modal-property-tagline" style="color: var(--text-secondary); margin-bottom: 20px;"></p>
+                        
+                        <h4 style="margin-bottom: 12px;">Exclusive Highlights Included:</h4>
+                        <ul id="modal-property-features" style="list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                            <!-- Populated dynamically -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Right: Check-out Wizard and Pricing Calculator -->
+                <div>
+                    <!-- Step Progress Header -->
+                    <div class="wizard-steps">
+                        <div class="wizard-step active" id="wstep-1">
+                            <div class="step-num">1</div>
+                            <span class="step-label">Dates</span>
+                        </div>
+                        <div class="wizard-step" id="wstep-2">
+                            <div class="step-num">2</div>
+                            <span class="step-label">Add-ons</span>
+                        </div>
+                        <div class="wizard-step" id="wstep-3">
+                            <div class="step-num">3</div>
+                            <span class="step-label">Legal</span>
+                        </div>
+                        <div class="wizard-step" id="wstep-4">
+                            <div class="step-num">4</div>
+                            <span class="step-label">Pay</span>
+                        </div>
+                    </div>
+
+                    <div id="booking-wizard-content">
+                        
+                        <!-- Panel 1: Check-in / Check-out / Guests -->
+                        <div class="booking-panel active" id="bpanel-1">
+                            <h3 style="margin-bottom: 20px;">Select Dates & Occupants</h3>
+                            <div class="form-group">
+                                <label for="book-in-date">Check In Date</label>
+                                <input type="date" id="book-in-date" required onchange="calculateQuote()">
+                            </div>
+                            <div class="form-group">
+                                <label for="book-out-date">Check Out Date</label>
+                                <input type="date" id="book-out-date" required onchange="calculateQuote()">
+                            </div>
+                            <div class="form-group">
+                                <label for="book-guests">Total Guests</label>
+                                <select id="book-guests">
+                                    <option value="2">2 Guests</option>
+                                    <option value="6">6 Guests</option>
+                                    <option value="12">12 Guests</option>
+                                    <option value="16">16 Guests</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Display calculations -->
+                            <div class="glass-panel-light" style="padding: 15px; margin-top: 20px;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 8px;">
+                                    <span>Rate per night:</span>
+                                    <span id="rate-per-night">$1,200</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 8px;">
+                                    <span>Total Nights:</span>
+                                    <span id="calc-nights">0 nights</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 600; color: var(--primary); border-top: 1px solid var(--border-dim); padding-top: 8px;">
+                                    <span>Estimated Quote:</span>
+                                    <span id="calc-total">$0</span>
+                                </div>
+                            </div>
+                            
+                            <button class="btn-gold" style="width: 100%; margin-top: 20px;" onclick="goToWizardStep(2)">Proceed to Upgrades</button>
+                        </div>
+
+                        <!-- Panel 2: Concierge Services Upgrades -->
+                        <div class="booking-panel" id="bpanel-2">
+                            <h3 style="margin-bottom: 10px;">VIP Experience Add-ons</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 20px;">
+                                Customize your stay with our pre-negotiated local services.
+                            </p>
+                            
+                            <div class="form-group" style="display: flex; flex-direction: column; gap: 10px;">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px solid var(--border-dim);">
+                                    <input type="checkbox" id="addon-chef" value="450" onchange="calculateQuote()">
+                                    <div>
+                                        <div style="font-weight: 600;">Private Chef Dining</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-muted);">+$450 / day</div>
+                                    </div>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px solid var(--border-dim);">
+                                    <input type="checkbox" id="addon-yacht" value="1500" onchange="calculateQuote()">
+                                    <div>
+                                        <div style="font-weight: 600;">4-Hour Yacht Charter</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-muted);">+$1,500 flat fee</div>
+                                    </div>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px solid var(--border-dim);">
+                                    <input type="checkbox" id="addon-security" value="300" onchange="calculateQuote()">
+                                    <div>
+                                        <div style="font-weight: 600;">VIP Airport Sprinter Shuttle</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-muted);">+$300 per trip</div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                                <button class="btn-outline" style="flex: 1;" onclick="goToWizardStep(1)">Back</button>
+                                <button class="btn-gold" style="flex: 1;" onclick="goToWizardStep(3)">Sign Agreement</button>
+                            </div>
+                        </div>
+
+                        <!-- Panel 3: Rental Agreement signing -->
+                        <div class="booking-panel" id="bpanel-3">
+                            <h3 style="margin-bottom: 10px;">Short-Term Rental Contract</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 15px;">
+                                Please review and e-sign the rental regulations and liability waivers.
+                            </p>
+                            
+                            <div class="glass-panel-light" style="padding: 15px; height: 180px; overflow-y: auto; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; border: 1px solid var(--border-dim);">
+                                <strong>BEYOND THE BNB SHORT TERM LEASE AGREEMENT</strong><br><br>
+                                1. **Noise Ordinance:** Guests agree to observe quiet hours starting at 11:00 PM on weekdays and 12:00 AM on weekends as per municipal laws in Florida and Colombia.<br><br>
+                                2. **Maximum Occupancy:** The guest capacity listed on the reservation must not be exceeded at any time. Parties and events are permitted *only* with written authorization and payment of the event fee.<br><br>
+                                3. **Liabilities:** Guests assume full liability for any physical damage done to the pool, jacuzzi, fireplaces, and digital artwork installations.<br><br>
+                                4. **Cancellation Policy:** Standard bookings are fully refundable up to 30 days prior to the check-in window.
+                            </div>
+
+                            <div class="sig-container">
+                                <label style="font-size: 0.75rem; color: var(--text-secondary);">Draw Signature on Canvas Below:</label>
+                                <canvas id="signature-pad"></canvas>
+                                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                                    <button style="background:transparent; border:none; color:var(--primary); font-size:0.75rem; cursor:pointer;" onclick="clearSignaturePad()">Clear Signature</button>
+                                    <span style="font-size: 0.7rem; color: var(--text-muted);">Secure Canvas Verified</span>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                                <button class="btn-outline" style="flex: 1;" onclick="goToWizardStep(2)">Back</button>
+                                <button class="btn-gold" style="flex: 1;" onclick="confirmAgreement()">E-Sign & Pay</button>
+                            </div>
+                        </div>
+
+                        <!-- Panel 4: Stripe checkout simulator -->
+                        <div class="booking-panel" id="bpanel-4">
+                            <h3 style="margin-bottom: 10px;">Stripe Secure Checkout</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 20px;">
+                                Your payment is secured and processed by Stripe.
+                            </p>
+                            
+                            <div class="stripe-form-sim">
+                                <div class="form-group">
+                                    <label>Email Address</label>
+                                    <input type="email" id="stripe-email" required placeholder="billing@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>Card Information</label>
+                                    <div class="card-input-wrapper">
+                                        <i class="fa-solid fa-credit-card text-gold"></i>
+                                        <input type="text" id="stripe-card-num" placeholder="4242 4242 4242 4242" maxlength="19" style="width: 100%;">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Expiration</label>
+                                        <input type="text" id="stripe-card-exp" placeholder="MM/YY" maxlength="5">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>CVC / Code</label>
+                                        <input type="password" id="stripe-card-cvc" placeholder="***" maxlength="4">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="glass-panel-light" style="padding: 15px; margin-top: 20px;">
+                                <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 600; color: var(--primary);">
+                                    <span>Total Amount:</span>
+                                    <span id="final-checkout-amount">$0</span>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                                <button class="btn-outline" style="flex: 1;" onclick="goToWizardStep(3)">Back</button>
+                                <button class="btn-gold" style="flex: 1;" onclick="processStripePayment()"><i class="fa-solid fa-lock"></i> Submit Payment</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT INCLUSION -->
+    <script src="app.js"></script>
+</body>
+</html>

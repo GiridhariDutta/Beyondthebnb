@@ -1,0 +1,11 @@
+# Git Ignore
+.gemini/
+.vs/
+.idea/
+.DS_Store
+*.log
+*.jpg
+*.jpeg
+*.jfif
+b6158429-e3bb-4a56-b936-17f5f6874608_jfif.jpg
+
